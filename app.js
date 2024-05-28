@@ -1,11 +1,19 @@
 const express = require('express')
+const path = require('path')
+
 const checklistsRouter = require('./src/routes/checklist')
+const rootRouter = require('./src/routes/index')
+
 require('./config/database')
 
 const app = express()
-
 app.use(express.json())
 
+app.set('views', path.join(__dirname, 'src/views'))
+app.set('view engine', 'ejs')
+
+// importando a rota root como middleware
+app.use('/', rootRouter)
 // usando a rota checklist como um middleware
 app.use('/checklists', checklistsRouter)
 
